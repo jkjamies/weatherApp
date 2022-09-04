@@ -1,15 +1,184 @@
 buildscript {
     ext {
+        kotlin_version = '1.7.10'
         compose_version = '1.3.0'
         compose_ui_version = '1.2.1'
+        compose_activity_version = '1.5.1'
+        koin_version = '3.2.0'
+        dokka_version = '1.7.0'
+        material3_version = '1.0.0-beta01'
+        timber_version = '4.7.1'
+
+        // compile
+        compile_version = 33
+        minVersion = 26
+
+        // build versions
+        verCode = 1
+        verName = "0.0.1"
+
+        testRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-}// Top-level build file where you can add configuration options common to all sub-projects/modules.
-plugins {
-    id 'com.android.application' version '7.2.2' apply false
-    id 'com.android.library' version '7.2.2' apply false
-    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:7.2.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
+    }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+static def excludeParentFoldersFor(project) {
+    def name = ""
+    def allProjects = project.getAllprojects()
+    if (allProjects.size() > 1) {
+        name = allProjects.first().name
+    }
+    return name
+}
+
+subprojects {
+    switch (it.name) {
+        case "app":
+            apply plugin: 'com.android.application'
+            apply plugin: 'kotlin-android'
+            apply plugin: 'kotlin-kapt'
+            applyAndroid(it)
+            break
+
+        case excludeParentFoldersFor(it):
+            break
+
+//        case [""]:
+//            apply plugin: 'kotlin'
+//            applyKotlinModule(it)
+//            break
+
+        default:
+            apply plugin: 'com.android.library'
+            apply plugin: 'kotlin-android'
+            applyAndroid(it)
+            break
+    }
+}
+
+def enableCompose(project) {
+    project.android {
+        buildFeatures {
+            compose = true
+        }
+        composeOptions {
+            kotlinCompilerExtensionVersion compose_version
+        }
+    }
+}
+
+def enableBuildConfig(project) {
+    project.android {
+        buildFeatures {
+            buildConfig = true
+        }
+    }
+}
+
+def applyKotlinModule(project) {
+    project.java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+def applyAndroid(project) {
+    project.android {
+
+        compileSdkVersion compile_version
+
+        defaultConfig {
+            minSdkVersion minVersion
+            targetSdkVersion compile_version
+            versionCode verCode
+            versionName verName
+            testInstrumentationRunner testRunner
+        }
+
+        compileOptions {
+            sourceCompatibility = 1.8
+            targetCompatibility = 1.8
+        }
+
+        kotlinOptions {
+            jvmTarget = "1.8"
+            freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+            freeCompilerArgs += "-Xjvm-default=all"
+        }
+
+        testOptions.unitTests {
+            includeAndroidResources = true
+        }
+
+        buildFeatures {
+            aidl = false
+            renderScript = false
+            resValues = false
+            shaders = false
+        }
+    }
+}
+
+def applyTimberDeps(project) {
+    project.dependencies {
+        // timber dependencies
+        implementation "com.jakewharton.timber:timber:$timber_version"
+    }
+}
+
+def applyKoinDeps(project) {
+    project.dependencies {
+        // koin dependencies
+        implementation "io.insert-koin:koin-core:$koin_version"
+        implementation "io.insert-koin:koin-android:$koin_version"
+        implementation "io.insert-koin:koin-androidx-navigation:$koin_version"
+        implementation "io.insert-koin:koin-androidx-compose:$koin_version"
+
+        testImplementation "io.insert-koin:koin-test:$koin_version"
+        androidTestImplementation "io.insert-koin:koin-test:$koin_version"
+        // Koin testing tools
+        testImplementation "io.insert-koin:koin-test:$koin_version"
+        // Needed JUnit version
+        testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
+//        implementation "org.koin:koin-androidx-viewmodel:2.1.6"
+//        testImplementation "org.koin:koin-test:2.1.6"
+//        androidTestImplementation "org.koin:koin-test:2.1.6"
+    }
+}
+
+def applyComposeUIDeps(project) {
+    enableCompose(project)
+    project.dependencies {
+        // compose ui dependencies
+        implementation "androidx.compose.ui:ui:$compose_ui_version"
+        implementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
+        implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
+//        implementation "androidx.compose.foundation:foundation:$compose_ui_version"
+        implementation "androidx.activity:activity-compose:$compose_activity_version"
+
+        debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+        androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
+    }
+}
+
+def applyMaterial3Deps(project) {
+    project.dependencies {
+        // material 3 dependencies
+        implementation("androidx.compose.material3:material3:$material3_version")
+        implementation("androidx.compose.material3:material3-window-size-class:$material3_version")
+    }
 }
