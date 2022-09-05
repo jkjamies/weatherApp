@@ -8,6 +8,7 @@ buildscript {
         dokka_version = '1.7.0'
         material3_version = '1.0.0-beta01'
         timber_version = '4.7.1'
+        ktor_version = '2.1.0'
 
         // compile
         compile_version = 33
@@ -28,6 +29,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:7.2.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
     }
 }
@@ -180,5 +182,17 @@ def applyMaterial3Deps(project) {
         // material 3 dependencies
         implementation("androidx.compose.material3:material3:$material3_version")
         implementation("androidx.compose.material3:material3-window-size-class:$material3_version")
+    }
+}
+
+def applyKtorDeps(project) {
+    project.dependencies {
+        // Ktor dependencies
+//        implementation "io.insert-koin:koin-ktor:$koin_version"
+        implementation "io.ktor:ktor-client-core:$ktor_version"
+        implementation "io.ktor:ktor-client-android:$ktor_version"
+        implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
+        implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
+        implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
     }
 }
