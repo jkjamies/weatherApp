@@ -16,23 +16,15 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = blue,
-    background = darkSteelBlue
+    primary = mediumSteelBlue,
+    background = darkSteelBlue,
+    surfaceVariant = mediumSteelBlue
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = blue,
     background = skyBlue,
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    surfaceVariant = blue
 )
 
 @Composable
