@@ -6,7 +6,3 @@ plugins {
 applyKoinDeps(this)
 applyTimberDeps(this)
 applyKtorDeps(this)
-
-dependencies {
-    implementation "ch.qos.logback:logback-classic:1.2.1"
-}

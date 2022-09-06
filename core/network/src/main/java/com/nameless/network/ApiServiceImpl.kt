@@ -9,14 +9,11 @@ import io.ktor.http.*
 import timber.log.Timber
 
 class ApiServiceImpl(private val client: HttpClient) : ApiService {
-    override suspend fun getWeatherForecast(lat: Float, lon: Float): ForecastResponse? {
+    override suspend fun getWeatherForecast(lat: Double, lon: Double): ForecastResponse? {
         return try {
             val response = client.get {
                 contentType(ContentType.Application.Json)
-                url(ApiRoutes.FORECAST)
-                parameter("lat", lat)
-                parameter("lon", lon)
-                parameter("appid", "your api key here")
+                url(ApiRoutes.getForecastRoute(lat, lon))
             }
             Timber.d(response.bodyAsText())
             return response.body<ForecastResponse>()

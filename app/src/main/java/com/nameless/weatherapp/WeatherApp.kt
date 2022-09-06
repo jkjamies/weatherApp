@@ -2,6 +2,8 @@ package com.nameless.weatherapp
 
 import android.app.Application
 import com.nameless.network.networkModule
+import com.nameless.repository.repositoryModule
+import com.nameless.weatherforecast.forecastModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -19,7 +21,9 @@ class WeatherApp : Application() {
             androidLogger()
             androidContext(this@WeatherApp)
             modules(
-                networkModule
+                networkModule,
+                repositoryModule,
+                forecastModule
             )
         }
     }

@@ -6,3 +6,7 @@ applyComposeUIDeps(this)
 applyKoinDeps(this)
 applyMaterial3Deps(this)
 applyTimberDeps(this)
+
+dependencies {
+    implementation project(path: ':data:repository')
+}
