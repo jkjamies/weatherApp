@@ -9,6 +9,7 @@ buildscript {
         material3_version = '1.0.0-beta01'
         timber_version = '4.7.1'
         ktor_version = '2.1.0'
+        coil_version = '2.1.0'
 
         // compile
         compile_version = 33
@@ -195,5 +196,12 @@ def applyKtorDeps(project) {
         implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
         implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
         implementation "ch.qos.logback:logback-classic:1.2.1"
+    }
+}
+
+def applyCoilDeps(project) {
+    project.dependencies {
+        // Coils dependencies
+        implementation "io.coil-kt:coil-compose:$coil_version"
     }
 }

@@ -3,7 +3,6 @@ package com.nameless.repository.mappers
 import com.nameless.network.model.ForecastResponse
 import com.nameless.repository.model.WeatherData
 import com.nameless.repository.model.WeatherInfo
-import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -16,13 +15,15 @@ fun ForecastResponse.toWeatherDataList(): Map<Int, List<WeatherData>> {
         val pressure = item.main.pressure
         val humidity = item.main.humidity
         val icon = item.weather[0].icon // TODO: list of icons for 3hr period - just use first?
+        val description = item.weather[0].description
         WeatherData(
             time = time.parseDate(),
-            tempCelsius = temperature,
+            temp = 1.8f * (temperature - 273.15f) + 32f,
             pressure = pressure,
             windSpeed = windSpeed,
             humidity = humidity,
-            icon = icon
+            icon = icon,
+            description = description
         )
     }.groupBy {
         it.time.dayOfMonth - minDay
