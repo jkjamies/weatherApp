@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,12 +21,18 @@ import coil.compose.rememberAsyncImagePainter
 import com.nameless.repository.model.WeatherData
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Suppress("ImplicitDefaultLocale")
 @Composable
-fun WeatherForecastCard(weatherData: WeatherData) {
+fun WeatherForecastCard(
+    dayIndex: Int,
+    weatherData: WeatherData,
+    onDayClick: (Int) -> Unit
+) {
     Card(
+        onClick = { onDayClick(dayIndex) },
         shape = RoundedCornerShape(10.dp),
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(0.dp, 8.dp)
     ) {
         Row(
             modifier = Modifier

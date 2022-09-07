@@ -10,6 +10,7 @@ buildscript {
         timber_version = '4.7.1'
         ktor_version = '2.1.0'
         coil_version = '2.1.0'
+        accompanist_version = '0.26.2-beta'
 
         // compile
         compile_version = 33
@@ -203,5 +204,12 @@ def applyCoilDeps(project) {
     project.dependencies {
         // Coils dependencies
         implementation "io.coil-kt:coil-compose:$coil_version"
+    }
+}
+
+def applyAccompanistDeps(project) {
+    project.dependencies {
+        // Accompanist dependencies
+        implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
     }
 }

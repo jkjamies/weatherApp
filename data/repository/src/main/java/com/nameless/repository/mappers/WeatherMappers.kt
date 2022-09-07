@@ -36,14 +36,18 @@ private fun String.parseDate() = LocalDateTime.parse(
 )
 
 fun ForecastResponse.toWeatherInfo(): WeatherInfo {
-    val weatherDataMap = this.toWeatherDataList()
+    // The api seems to return 5 days from 'now' so there could be 6 days
+    // so make the map mutable, remove any keys over 4 (0-based 5 day forecast)
+    // and ensure it is an immutable map when returning the WeatherInfo object
+    val weatherDataMap = this.toWeatherDataList().toMutableMap()
+    if (weatherDataMap.count() > 5) weatherDataMap.entries.removeIf { it.key > 4 }
     val now = LocalDateTime.now()
     val currentWeatherData = weatherDataMap[0]?.find {
         val hour = if (now.minute < 30) now.hour else now.hour + 1
         it.time.hour == hour
     }
     return WeatherInfo(
-        weatherDataByDay = weatherDataMap,
+        weatherDataByDay = weatherDataMap.toMap(),
         currentWeatherData = currentWeatherData
     )
 }

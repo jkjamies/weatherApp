@@ -18,6 +18,7 @@ class WeatherForecastViewModel(private val repository: WeatherRepository): ViewM
         viewModelScope.launch {
             // isLoading
             state = state.copy(
+                weatherInfo = null, // TODO: might not need this, should pull from cache on load
                 isLoading = true,
                 error = null
             )

@@ -12,6 +12,7 @@ fun WeatherForecastScreen() {
     }
 
     WeatherForecastList(
-        state = viewModel.state
+        state = viewModel.state,
+        onRefreshForecast = { viewModel.getWeatherData() }
     )
 }
