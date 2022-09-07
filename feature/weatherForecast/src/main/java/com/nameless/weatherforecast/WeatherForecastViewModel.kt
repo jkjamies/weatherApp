@@ -24,6 +24,7 @@ class WeatherForecastViewModel(private val repository: WeatherRepository): ViewM
             )
 
             // call and return handling
+            // TODO: get location and/or get zip code info
             when (val result = repository.getForecastData(37.422131, -122.084801)) {
                 is HttpResponse.Success -> {
                     state = state.copy(

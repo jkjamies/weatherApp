@@ -8,6 +8,7 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import timber.log.Timber
 
+@Suppress("TooGenericExceptionCaught")
 class ApiServiceImpl(private val client: HttpClient) : ApiService {
     override suspend fun getWeatherForecast(lat: Double, lon: Double): ForecastResponse? {
         return try {

@@ -1,3 +1,4 @@
+@file:Suppress("MagicNumber")
 package com.nameless.repository.mappers
 
 import com.nameless.network.model.ForecastResponse
@@ -6,7 +7,13 @@ import com.nameless.repository.model.WeatherInfo
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-fun ForecastResponse.toWeatherDataList(): Map<Int, List<WeatherData>> {
+/**
+ * Convert a ForecastResponse into a weather data list in the form of
+ * a Map where the key is an integer representing 0 as current day, increasing
+ * by a value of 1 for every day into the future and a value which is a list
+ * of WeatherData, broken down in 3-hour increments as per the api.
+ */
+private fun ForecastResponse.toWeatherDataList(): Map<Int, List<WeatherData>> {
     val minDay = list[0].dtText.parseDate().dayOfMonth
     return list.map { item ->
         val time = item.dtText
@@ -30,11 +37,19 @@ fun ForecastResponse.toWeatherDataList(): Map<Int, List<WeatherData>> {
     }
 }
 
+/**
+ * Parse the date from a string in the pattern of "yyyy-MM-dd HH:mm:ss".
+ */
 private fun String.parseDate() = LocalDateTime.parse(
     this,
     DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 )
 
+/**
+ * Convert a ForecastResponse to a WeatherInfo where days are mapped starting
+ * with current day as 0 and increasing by a value of 1 for each day into the
+ * future and a value as a list of WeatherData in 3-hour increments as per api.
+ */
 fun ForecastResponse.toWeatherInfo(): WeatherInfo {
     // The api seems to return 5 days from 'now' so there could be 6 days
     // so make the map mutable, remove any keys over 4 (0-based 5 day forecast)
@@ -48,6 +63,6 @@ fun ForecastResponse.toWeatherInfo(): WeatherInfo {
     }
     return WeatherInfo(
         weatherDataByDay = weatherDataMap.toMap(),
-        currentWeatherData = currentWeatherData
+        currentWeatherData = currentWeatherData // TODO: would like to use this for larger card
     )
 }

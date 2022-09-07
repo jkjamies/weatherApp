@@ -2,6 +2,7 @@ package com.nameless.repository.model
 
 import java.time.LocalDateTime
 
+/** WeatherData containing view-important information */
 data class WeatherData(
     val time: LocalDateTime,
     val temp: Float,
