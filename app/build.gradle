@@ -37,11 +37,8 @@ applyMaterial3Deps(this)
 applyTimberDeps(this)
 
 dependencies {
+    implementation project(path: ':di')
     implementation project(path: ':navigation')
-    implementation project(path: ':feature:weatherForecast')
-    implementation project(path: ':feature:weatherDetail')
-    implementation project(path: ':data:repository')
-    implementation project(path: ':core:network')
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'

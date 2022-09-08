@@ -1,0 +1,9 @@
+applyKoinDeps(this)
+applyTimberDeps(this)
+
+dependencies {
+    implementation project(path: ':feature:weatherForecast')
+    implementation project(path: ':feature:weatherDetail')
+    implementation project(path: ':data:repository')
+    implementation project(path: ':core:network')
+}
