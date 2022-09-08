@@ -1,0 +1,9 @@
+applyTimberDeps(this)
+applyComposeUIDeps(this)
+applyMaterial3Deps(this)
+applyComposeNavigationDeps(this)
+
+dependencies {
+    implementation project(path: ':feature:weatherForecast')
+    implementation project(path: ':feature:weatherDetail')
+}

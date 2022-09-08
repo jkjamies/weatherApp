@@ -56,13 +56,6 @@ fun ForecastResponse.toWeatherInfo(): WeatherInfo {
     // and ensure it is an immutable map when returning the WeatherInfo object
     val weatherDataMap = this.toWeatherDataList().toMutableMap()
     if (weatherDataMap.count() > 5) weatherDataMap.entries.removeIf { it.key > 4 }
-    val now = LocalDateTime.now()
-    val currentWeatherData = weatherDataMap[0]?.find {
-        val hour = if (now.minute < 30) now.hour else now.hour + 1
-        it.time.hour == hour
-    }
-    return WeatherInfo(
-        weatherDataByDay = weatherDataMap.toMap(),
-        currentWeatherData = currentWeatherData // TODO: would like to use this for larger card
-    )
+//    return WeatherInfo(this.toWeatherDataList())
+    return WeatherInfo(weatherDataByDay = weatherDataMap.toMap())
 }

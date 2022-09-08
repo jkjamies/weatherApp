@@ -6,3 +6,10 @@ applyComposeUIDeps(this)
 applyKoinDeps(this)
 applyMaterial3Deps(this)
 applyTimberDeps(this)
+applyCoilDeps(this)
+applyAccompanistDeps(this)
+
+dependencies {
+    implementation project(path: ':data:repository')
+    implementation project(path: ':feature:shared')
+}

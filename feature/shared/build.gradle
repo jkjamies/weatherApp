@@ -1,0 +1,8 @@
+plugins {
+    id 'kotlin-kapt'
+}
+
+applyComposeUIDeps(this)
+applyKoinDeps(this)
+applyMaterial3Deps(this)
+applyTimberDeps(this)

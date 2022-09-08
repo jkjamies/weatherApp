@@ -11,4 +11,5 @@ applyAccompanistDeps(this)
 
 dependencies {
     implementation project(path: ':data:repository')
+    implementation project(path: ':feature:shared')
 }
