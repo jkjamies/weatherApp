@@ -1,6 +1,6 @@
 package com.nameless.repository
 
-import com.nameless.mappers.toCityWeatherForecast
+import com.nameless.mappers.toWeatherInfo
 import com.nameless.network.ApiService
 import com.nameless.repository.model.HttpResponse
 import com.nameless.room.WeatherDatabase
@@ -24,7 +24,7 @@ class WeatherRepositoryImpl(
         val response = apiService.getWeatherForecast(lat = lat, lon = lon)
         if (response != null) {
             weatherDatabase.forecastDao().deleteForecast()
-            weatherDatabase.forecastDao().insertForecast(response.toCityWeatherForecast())
+            weatherDatabase.forecastDao().insertForecast(response.toWeatherInfo())
         }
 
         return try {
