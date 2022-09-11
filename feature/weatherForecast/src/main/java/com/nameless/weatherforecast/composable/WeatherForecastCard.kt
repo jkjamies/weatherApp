@@ -1,6 +1,7 @@
 package com.nameless.weatherforecast.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.nameless.repository.model.WeatherData
+import com.nameless.mappers.parseDate
+import com.nameless.room.model.WeatherData
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,7 +57,8 @@ fun WeatherForecastCard(
             ) {
                 Text(
                     // using 12-hour format, could add a state for the unit (24 vs 12 hour formats)
-                    text = weatherData.time.format(DateTimeFormatter.ofPattern("M/d - h:mm a")),
+                    text = weatherData.time.parseDate()
+                        .format(DateTimeFormatter.ofPattern("M/d")),
                     fontSize = 16.sp,
                     modifier = Modifier.align(Alignment.Start),
                 )
@@ -66,11 +69,19 @@ fun WeatherForecastCard(
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = weatherData.description,
-                fontSize = 16.sp,
-                modifier = Modifier.align(Alignment.CenterVertically),
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text(
+                    text = weatherData.description,
+                    fontSize = 16.sp,
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                )
+            }
         }
     }
 }

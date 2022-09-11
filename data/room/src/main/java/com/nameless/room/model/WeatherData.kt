@@ -1,10 +1,8 @@
-package com.nameless.repository.model
-
-import java.time.LocalDateTime
+package com.nameless.room.model
 
 /** WeatherData containing view-important information */
 data class WeatherData(
-    val time: LocalDateTime,
+    val time: String,
     val temp: Float,
     val pressure: Int,
     val windSpeed: Float,

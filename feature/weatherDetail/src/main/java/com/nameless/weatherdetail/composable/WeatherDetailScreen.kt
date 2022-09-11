@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import com.nameless.mappers.parseDate
 import com.nameless.shared.WeatherTopAppBar
 import com.nameless.weatherdetail.WeatherDetailViewModel
 import org.koin.androidx.compose.getViewModel
@@ -22,16 +23,17 @@ fun WeatherDetailScreen(
 ) {
     val viewModel = getViewModel<WeatherDetailViewModel>()
     LaunchedEffect(Unit) {
-        viewModel.getWeatherData(dayId)
+        viewModel.loadDailyForecast(dayId)
     }
 
     // TODO: using this in a few places, maybe a utility area to get the
     //  different permutations would be a good improvement in the future
+
+    // TODO: string resources (non-translatable))
     val topBarTitle = "Weather Details for ${
         dayId?.let {
-            viewModel.state.weatherData?.get(it)?.time?.format(
-                DateTimeFormatter.ofPattern("M/d/yy") // TODO: string resources (non-translatable)
-            )
+            viewModel.state.dailyForecast?.forecast?.get(it)?.time?.parseDate()
+                ?.format(DateTimeFormatter.ofPattern("M/d/yy"))
         } ?: ""
     }"
 

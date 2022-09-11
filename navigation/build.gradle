@@ -4,6 +4,6 @@ applyMaterial3Deps(this)
 applyComposeNavigationDeps(this)
 
 dependencies {
-    implementation project(path: ':feature:weatherForecast')
-    implementation project(path: ':feature:weatherDetail')
+    api project(path: ':feature:weatherForecast')
+    api project(path: ':feature:weatherDetail')
 }

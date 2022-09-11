@@ -10,6 +10,7 @@ applyCoilDeps(this)
 applyAccompanistDeps(this)
 
 dependencies {
-    implementation project(path: ':data:repository')
-    implementation project(path: ':feature:shared')
+    api project(path: ':data:repository')
+    api project(path: ':data:room')
+    api project(path: ':feature:shared')
 }

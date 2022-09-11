@@ -1,0 +1,11 @@
+plugins {
+    id 'kotlin-kapt'
+}
+
+applyTimberDeps(this)
+applyRoomDeps(this)
+applyGsonDeps(this)
+
+dependencies {
+    api project(path: ':core:network')
+}

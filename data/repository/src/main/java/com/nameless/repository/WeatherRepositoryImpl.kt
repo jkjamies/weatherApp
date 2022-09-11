@@ -1,32 +1,39 @@
 package com.nameless.repository
 
+import com.nameless.mappers.toCityWeatherForecast
 import com.nameless.network.ApiService
-import com.nameless.repository.mappers.toWeatherInfo
 import com.nameless.repository.model.HttpResponse
-import com.nameless.repository.model.WeatherInfo
+import com.nameless.room.WeatherDatabase
+import kotlinx.coroutines.flow.filterNotNull
 import timber.log.Timber
 
 /**
  * Data Repository to interface with [apiService] for Http network calls.
  */
 @Suppress("TooGenericExceptionThrown", "TooGenericExceptionCaught")
-class WeatherRepositoryImpl(private val apiService: ApiService) : WeatherRepository {
+class WeatherRepositoryImpl(
+    private val weatherDatabase: WeatherDatabase,
+    private val apiService: ApiService
+) : WeatherRepository {
 
     /**
      * Get an HttpResponse of WeatherInfo as data from the apiService to represent
      * a 5-day forecast in the area given by [lat] and [lon] from the user.
      */
-    override suspend fun getForecastData(lat: Double, lon: Double): HttpResponse<WeatherInfo> {
+    override suspend fun getForecastData(lat: Double, lon: Double): HttpResponse {
+        val response = apiService.getWeatherForecast(lat = lat, lon = lon)
+        if (response != null) {
+            weatherDatabase.forecastDao().deleteForecast()
+            weatherDatabase.forecastDao().insertForecast(response.toCityWeatherForecast())
+        }
+
         return try {
-            HttpResponse.Success(
-                data = apiService.getWeatherForecast(
-                    lat = lat,
-                    lon = lon
-                )?.toWeatherInfo() ?: throw Exception("Api returned empty or null response")
-            )
+            HttpResponse.Success()
         } catch (ex: Exception) {
             Timber.e(ex.message)
             HttpResponse.Error(ex.message ?: "Unknown Error")
         }
     }
+
+    override suspend fun getForecast() = weatherDatabase.forecastDao().getForecast().filterNotNull()
 }
