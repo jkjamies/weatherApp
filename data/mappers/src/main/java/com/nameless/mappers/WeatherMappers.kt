@@ -27,9 +27,9 @@ fun ForecastResponse.toWeatherInfo(): WeatherInfo {
         val description = item.weather[0].description
         WeatherData(
             time = time,
-            temp = 1.8f * (temperature - 273.15f) + 32f,
+            temp = 1.8f * (temperature - 273.15f) + 32f, // Kelvin to F
             pressure = pressure,
-            windSpeed = windSpeed,
+            windSpeed = windSpeed * 2.2369f, // m/s to mph
             humidity = humidity,
             icon = icon,
             description = description
@@ -45,15 +45,21 @@ fun ForecastResponse.toWeatherInfo(): WeatherInfo {
 }
 
 /**
- * Convert WeatherInfo object to a list of all WeatherData representing a five
+ * Convert WeatherInfo object to a WeatherInfo with a list of all WeatherData representing a five
  * (or six, depending on the api) forecast. 3pm is used, else first provided if not available.
  */
-fun WeatherInfo.toFiveDayForecast(): List<WeatherData> {
+fun WeatherInfo.toFiveDayForecast(): WeatherInfo {
     val minDay = this.forecast.first().time.parseDate().dayOfMonth
     val mappedData = this.forecast.map { it }.groupBy { it.time.parseDate().dayOfMonth - minDay }
-    return mappedData.map { entry ->
-        entry.value.find { abs(it.time.parseDate().hour.minus(15)) <= 2 } ?: entry.value[0]
-    }
+    return WeatherInfo(
+        id = this.id,
+        name = this.name,
+        sunrise = this.sunrise,
+        sunset = this.sunset,
+        forecast = mappedData.map { entry ->
+            entry.value.find { abs(it.time.parseDate().hour.minus(15)) <= 2 } ?: entry.value[0]
+        }
+    )
 }
 
 /**

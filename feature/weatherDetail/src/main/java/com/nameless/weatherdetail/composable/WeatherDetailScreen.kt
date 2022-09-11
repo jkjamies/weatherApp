@@ -18,10 +18,13 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeatherDetailScreen(
+    cityZip: String?,
     dayId: Int?,
     goBackToForecast: () -> Unit
 ) {
     val viewModel = getViewModel<WeatherDetailViewModel>()
+    // This is starting the collection of flow
+    // (because we want to know the dayId, so not using init block)
     LaunchedEffect(Unit) {
         viewModel.loadDailyForecast(dayId)
     }
@@ -43,7 +46,7 @@ fun WeatherDetailScreen(
         Column(modifier = Modifier.padding(padding)) {
             SwipeRefresh(
                 state = rememberSwipeRefreshState(isRefreshing = viewModel.state.isLoading),
-                onRefresh = { viewModel.getWeatherData(dayId) }
+                onRefresh = { viewModel.getWeatherData(cityZip) }
             ) {
                 WeatherDetailList(state = viewModel.state)
             }

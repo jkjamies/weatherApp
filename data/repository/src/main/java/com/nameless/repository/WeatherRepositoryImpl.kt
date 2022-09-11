@@ -18,10 +18,15 @@ class WeatherRepositoryImpl(
 
     /**
      * Get an HttpResponse of WeatherInfo as data from the apiService to represent
-     * a 5-day forecast in the area given by [lat] and [lon] from the user.
+     * a 5-day forecast in the area given by the [cityZip] - deciphered by the function as either
+     * a city name or zip code - from the user.
      */
-    override suspend fun getForecastData(lat: Double, lon: Double): HttpResponse {
-        val response = apiService.getWeatherForecast(lat = lat, lon = lon)
+    override suspend fun getForecastData(cityZip: String): HttpResponse {
+        // simply just checking if the cityZip is numeric - if so using zip code else city name
+        val response = cityZip.toIntOrNull()?.let {
+            apiService.getWeatherForecastFromZipCode(cityZip)
+        } ?: apiService.getWeatherForecastFromCityName(cityZip)
+
         if (response != null) {
             weatherDatabase.forecastDao().deleteForecast()
             weatherDatabase.forecastDao().insertForecast(response.toWeatherInfo())

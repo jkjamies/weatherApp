@@ -30,29 +30,31 @@ class WeatherForecastViewModel(private val repository: WeatherRepository) : View
         }
     }
 
-    fun getWeatherData() {
-        viewModelScope.launch {
-            // isLoading
-            state = state.copy(
-                isLoading = true,
-                error = null
-            )
+    fun getWeatherData(cityZip: String?) {
+        cityZip?.let {
+            viewModelScope.launch {
+                // isLoading
+                state = state.copy(
+                    isLoading = true,
+                    error = null
+                )
 
-            // call and return handling
-            // TODO: get location and/or get zip code info
-            when (val result = repository.getForecastData(37.422131, -122.084801)) {
-                is HttpResponse.Success -> {
-                    state = state.copy(
-                        isLoading = false,
-                        error = null
-                    )
-                }
-                is HttpResponse.Error -> {
-                    state = state.copy(
-                        dailyWeatherData = null,
-                        isLoading = false,
-                        error = result.message
-                    )
+                // call and return handling
+                // TODO: get location and/or get zip code info
+                state = when (val result = repository.getForecastData(cityZip)) {
+                    is HttpResponse.Success -> {
+                        state.copy(
+                            isLoading = false,
+                            error = null
+                        )
+                    }
+                    is HttpResponse.Error -> {
+                        state.copy(
+                            dailyWeatherData = null,
+                            isLoading = false,
+                            error = result.message
+                        )
+                    }
                 }
             }
         }

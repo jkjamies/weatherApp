@@ -10,7 +10,7 @@ import com.nameless.repository.WeatherRepository
 import com.nameless.repository.model.HttpResponse
 import kotlinx.coroutines.launch
 
-class WeatherDetailViewModel(private val repository: WeatherRepository): ViewModel() {
+class WeatherDetailViewModel(private val repository: WeatherRepository) : ViewModel() {
 
     var state by mutableStateOf(WeatherDetailState())
         private set
@@ -31,8 +31,8 @@ class WeatherDetailViewModel(private val repository: WeatherRepository): ViewMod
         }
     }
 
-    fun getWeatherData(dayIndex: Int?) {
-        dayIndex?.let {
+    fun getWeatherData(cityZip: String?) {
+        cityZip?.let {
             viewModelScope.launch {
                 // isLoading
                 state = state.copy(
@@ -42,15 +42,15 @@ class WeatherDetailViewModel(private val repository: WeatherRepository): ViewMod
 
                 // call and return handling
                 // TODO: get location and/or get zip code info
-                when (val result = repository.getForecastData(37.422131, -122.084801)) {
+                state = when (val result = repository.getForecastData(it)) {
                     is HttpResponse.Success -> {
-                        state = state.copy(
+                        state.copy(
                             isLoading = false,
                             error = null
                         )
                     }
                     is HttpResponse.Error -> {
-                        state = state.copy(
+                        state.copy(
                             dailyForecast = null,
                             isLoading = false,
                             error = result.message

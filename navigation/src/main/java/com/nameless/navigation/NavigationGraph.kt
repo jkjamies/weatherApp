@@ -18,15 +18,21 @@ fun NavigationGraph() {
         startDestination = "forecast"
     ) {
         composable("forecast") {
-            WeatherForecastScreen {
-                navController.navigate("detail/$it")
+            WeatherForecastScreen { cityZip, dayId ->
+                navController.navigate("detail/$cityZip/$dayId")
             }
         }
         composable(
-            "detail/{dayId}",
-            arguments = listOf(navArgument("dayId") { type = NavType.IntType })
+            "detail/{cityZip}/{dayId}",
+            arguments = listOf(
+                navArgument("cityZip") { type = NavType.StringType },
+                navArgument("dayId") { type = NavType.IntType }
+            )
         ) { backStackEntry ->
-            WeatherDetailScreen(backStackEntry.arguments?.getInt("dayId")) {
+            WeatherDetailScreen(
+                backStackEntry.arguments?.getString("cityZip"),
+                backStackEntry.arguments?.getInt("dayId")
+            ) {
                 navController.popBackStack()
             }
         }

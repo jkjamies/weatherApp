@@ -10,7 +10,13 @@ object ApiRoutes {
     // simpler area to append api key
     private fun String.appendApiKey() = "${this@appendApiKey}&appid=$API_KEY"
 
-
     // getter for forecast route
-    fun getForecastRoute(lat: Double, lon: Double) = "${BASE_URL}${FORECAST}lat=$lat&lon=$lon".appendApiKey()
+    fun getCoordinatesForecastRoute(lat: Double, lon: Double) =
+        "${BASE_URL}${FORECAST}lat=$lat&lon=$lon".appendApiKey()
+    // getter for forecast by zip route
+    fun getZipForecastRoute(zip: String, countryCode: String = "us") =
+        "${BASE_URL}${FORECAST}zip=$zip,$countryCode".appendApiKey()
+    // getter for forecast by city name route
+    fun getCityNameForecastRoute(city: String) =
+        "${BASE_URL}${FORECAST}q=$city".appendApiKey()
 }

@@ -1,10 +1,9 @@
 package com.nameless.weatherforecast
 
-import com.nameless.room.model.WeatherData
-
+import com.nameless.room.model.WeatherInfo
 
 data class WeatherForecastState(
-    val dailyWeatherData: List<WeatherData>? = null,
+    val dailyWeatherData: WeatherInfo? = null,
     val isLoading: Boolean = false,
     val error: String? = null
 )

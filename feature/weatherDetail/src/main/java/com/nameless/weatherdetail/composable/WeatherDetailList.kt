@@ -21,12 +21,7 @@ fun WeatherDetailList(
             MissingWeatherData()
         } else {
             Column {
-                val city = state.dailyForecast.name
-                val sunrise =
-                    SimpleDateFormat("h:mm a").format(Date(state.dailyForecast.sunrise))
-                val sunset =
-                    SimpleDateFormat("h:mm a").format(Date(state.dailyForecast.sunrise))
-                WeatherDetailHeader(city, sunrise, sunset)
+                WeatherDetailHeader(state.dailyForecast.name)
                 if (data.isEmpty()) {
                     MissingWeatherData()
                 } else {

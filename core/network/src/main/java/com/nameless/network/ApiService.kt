@@ -10,7 +10,9 @@ import kotlinx.serialization.json.Json
 
 interface ApiService {
 
-    suspend fun getWeatherForecast(lat: Double, lon: Double): ForecastResponse?
+    suspend fun getWeatherForecastFromCoordinates(lat: Double, lon: Double): ForecastResponse?
+    suspend fun getWeatherForecastFromCityName(city: String): ForecastResponse?
+    suspend fun getWeatherForecastFromZipCode(zip: String): ForecastResponse?
 
     companion object {
         fun build(): ApiService {

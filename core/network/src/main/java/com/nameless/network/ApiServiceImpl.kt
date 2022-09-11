@@ -10,11 +10,44 @@ import timber.log.Timber
 
 @Suppress("TooGenericExceptionCaught")
 class ApiServiceImpl(private val client: HttpClient) : ApiService {
-    override suspend fun getWeatherForecast(lat: Double, lon: Double): ForecastResponse? {
+    override suspend fun getWeatherForecastFromCoordinates(
+        lat: Double,
+        lon: Double
+    ): ForecastResponse? {
         return try {
             val response = client.get {
                 contentType(ContentType.Application.Json)
-                url(ApiRoutes.getForecastRoute(lat, lon))
+                url(ApiRoutes.getCoordinatesForecastRoute(lat, lon))
+            }
+            Timber.d(response.bodyAsText())
+            return response.body<ForecastResponse>()
+        } catch (ex: Exception) {
+            // TODO: maybe get fancier with 300, 400, 500, api-key errors
+            Timber.e("Exception: ${ex.message}")
+            null
+        }
+    }
+
+    override suspend fun getWeatherForecastFromCityName(city: String): ForecastResponse? {
+        return try {
+            val response = client.get {
+                contentType(ContentType.Application.Json)
+                url(ApiRoutes.getCityNameForecastRoute(city))
+            }
+            Timber.d(response.bodyAsText())
+            return response.body<ForecastResponse>()
+        } catch (ex: Exception) {
+            // TODO: maybe get fancier with 300, 400, 500, api-key errors
+            Timber.e("Exception: ${ex.message}")
+            null
+        }
+    }
+
+    override suspend fun getWeatherForecastFromZipCode(zip: String): ForecastResponse? {
+        return try {
+            val response = client.get {
+                contentType(ContentType.Application.Json)
+                url(ApiRoutes.getZipForecastRoute(zip))
             }
             Timber.d(response.bodyAsText())
             return response.body<ForecastResponse>()

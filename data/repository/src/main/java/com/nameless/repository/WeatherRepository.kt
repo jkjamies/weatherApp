@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface WeatherRepository {
 
-    suspend fun getForecastData(lat: Double, lon: Double): HttpResponse
+    suspend fun getForecastData(cityZip: String): HttpResponse
     suspend fun getForecast(): Flow<WeatherInfo?>
 
 }

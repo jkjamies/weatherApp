@@ -1,6 +1,7 @@
 package com.nameless.weatherdetail.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -56,16 +57,34 @@ fun WeatherDetailCard(
                         .height(64.dp)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    // always F, could make state have unit
-                    text = "${String.format("%.0f", weatherData.temp)}°F",
-                    fontSize = 32.sp,
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = weatherData.description,
-                    fontSize = 24.sp
-                )
+                Column {
+                    Text(
+                        // always F, could make state have unit
+                        text = "${String.format("%.0f", weatherData.temp)}°F",
+                        fontSize = 24.sp,
+                    )
+                    Text(text = "Humidity: ${weatherData.humidity} %") // TODO: string resources
+                    Text(
+                        text = String.format(
+                            "Wind: %.2f mph",
+                            weatherData.windSpeed
+                        )
+                    ) // TODO: string resources
+                    Text(text = "Pressure: ${weatherData.pressure} hPa") // TODO: string resources
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Text(
+                        text = weatherData.description,
+                        fontSize = 16.sp,
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    )
+                }
             }
         }
     }
