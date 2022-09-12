@@ -5,6 +5,7 @@ plugins {
 applyTimberDeps(this)
 applyRoomDeps(this)
 applyGsonDeps(this)
+applyTestDeps(this)
 
 dependencies {
     api project(path: ':core:network')
