@@ -6,3 +6,4 @@ plugins {
 applyKoinDeps(this)
 applyTimberDeps(this)
 applyKtorDeps(this)
+applyTestDeps(this)

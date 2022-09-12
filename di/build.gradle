@@ -1,5 +1,7 @@
 applyKoinDeps(this)
+applyKoinTestDeps(this)
 applyTimberDeps(this)
+applyKtorDeps(this) // necessary evil for testing
 
 dependencies {
     api project(path: ':feature:weatherForecast')
