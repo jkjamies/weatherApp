@@ -27,6 +27,12 @@ class WeatherRepositoryImpl(
             apiService.getWeatherForecastFromZipCode(cityZip)
         } ?: apiService.getWeatherForecastFromCityName(cityZip)
 
+        // We are only holding one forecast at a time and deleting all when we get a new one
+        // to accommodate multiple forecasts we can use a query on delete and on the fetch
+        // for the name of the city on the database model
+        // This, however, gets complicated because we are accepting city name and zip code
+        // so we would have to decipher city name from zip code to know how to properly query.
+        // This would be something to consider coming back to if I get more time.
         if (response != null) {
             weatherDatabase.forecastDao().deleteForecast()
             weatherDatabase.forecastDao().insertForecast(response.toWeatherInfo())
