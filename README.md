@@ -17,6 +17,8 @@ and can no longer be used.
    ViewModel tests were omitted just due to the simplicity and had less value than some others (could also
    benefit from a base ViewModel class with similar functionality in one place). A fake repository could
    also be created for ViewModel testing. Navigation testing is using network and should fake/mock instead.
+   Compose testing could be added, but the navigation test shows the use of the test compose rule, and
+   the screens are quite basic at this time (see: https://developer.android.com/jetpack/compose/testing).
 
  - There are some KDocs, but more could be added if dokka were a goal in the future.
 
