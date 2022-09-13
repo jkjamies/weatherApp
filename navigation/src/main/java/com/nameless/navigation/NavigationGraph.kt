@@ -1,6 +1,7 @@
 package com.nameless.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,7 +13,13 @@ import com.nameless.weatherforecast.composable.WeatherForecastScreen
 @Composable
 fun NavigationGraph() {
     val navController = rememberNavController()
+    NavHost(navController)
+}
 
+@Composable
+fun NavHost(
+    navController: NavHostController
+) {
     NavHost(
         navController = navController,
         startDestination = "forecast"

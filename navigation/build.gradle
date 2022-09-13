@@ -2,8 +2,11 @@ applyTimberDeps(this)
 applyComposeUIDeps(this)
 applyMaterial3Deps(this)
 applyComposeNavigationDeps(this)
+applyKoinDeps(this)
+applyKoinTestDeps(this)
 
 dependencies {
+    api project(path: ':di')
     api project(path: ':feature:weatherForecast')
     api project(path: ':feature:weatherDetail')
 }

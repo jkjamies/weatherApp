@@ -1,5 +1,6 @@
 applyKoinDeps(this)
 applyTimberDeps(this)
+applyTestDeps(this)
 
 dependencies {
     api project(path: ':data:room')

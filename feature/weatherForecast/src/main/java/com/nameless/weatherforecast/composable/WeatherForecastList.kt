@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nameless.shared.MissingWeatherData
@@ -31,7 +32,9 @@ fun WeatherForecastList(
         )
         state.dailyWeatherData?.forecast?.let { data ->
             LazyColumn(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier
+                    .padding(16.dp)
+                    .testTag("forecastList")
             ) {
                 itemsIndexed(items = data) { index, weatherData ->
                     WeatherForecastCard(

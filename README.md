@@ -12,7 +12,11 @@ and can no longer be used.
    modularization structure of the layers of the application using them.
 
  - Unit and integration tests were time-blocked, so although not full coverage, provides some example 
-   as to how the project could implement them and how they could be of use.
+   as to how the project could implement them and how they could be of use. Repository could be split
+   into local and/or remote data sources, then a fake data source can be created for repository testing.
+   ViewModel tests were omitted just due to the simplicity and had less value than some others (could also
+   benefit from a base ViewModel class with similar functionality in one place). A fake repository could
+   also be created for ViewModel testing. Navigation testing is using network and should fake/mock instead.
 
  - There are some KDocs, but more could be added if dokka were a goal in the future.
 

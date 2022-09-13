@@ -30,6 +30,7 @@ class WeatherForecastViewModel(private val repository: WeatherRepository) : View
         }
     }
 
+    // TODO: both view models use this, could maybe use a base view model class for them both
     fun getWeatherData(cityZip: String?) {
         cityZip?.let {
             viewModelScope.launch {
