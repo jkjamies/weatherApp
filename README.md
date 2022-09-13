@@ -1,5 +1,5 @@
 ## Running This Project
-You will need to obtain your own api key for openweathermap and insert the value into the dead api key
+You will need to obtain your own api key for https://openweathermap.org/ and insert the value into the dead api key
 slot in the ApiRoutes.kt file located in the :core:network module. The one provided is dead
 and can no longer be used.
 
